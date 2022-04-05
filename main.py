@@ -4,7 +4,7 @@ import pyttsx3
 import random
 import sys
 from PyQt5.QtCore import QTimer
-from PyQt5.QtWidgets import QApplication, QDialog, QLabel
+from PyQt5.QtWidgets import QApplication, QDialog, QLabel, QPushButton
 from number_to_word import num2word
 
 
@@ -26,12 +26,13 @@ class MainDialog(QDialog):
 
         for i in range(10):
             for j in range(10):
-                label = QLabel(str(i * 10 + j + 1))
+                label = QPushButton(str(i * 10 + j + 1))
                 label.setFixedSize(80, 80)
-                label.setAlignment(QtCore.Qt.AlignCenter)
                 self._set_label_color(label, self.DefaultColor)
                 self.Labels.append(label)
                 self.ui.NumberLayout.addWidget(label, i, j)
+                label.clicked.connect(self.SelectLabel)
+
         self.ui.RandomPickBtn.clicked.connect(self.RandomPick)
         self.ui.ResetBtn.clicked.connect(self.Reset)
 
@@ -43,7 +44,7 @@ class MainDialog(QDialog):
         self.ui.ScanIntervalSlider.valueChanged.connect(self.InternalChanged)
 
     def _get_color_style(self, name):
-        return "QLabel{{ font-size:25px;font-weight:bold;font-family:Roman times;background-color:{} }}".format(name)
+        return "QPushButton{{ font-size:25px;font-weight:bold;font-family:Roman times;background-color:{} }}".format(name)
 
     def _set_label_color(self, label, color):
         label.setStyleSheet(self._get_color_style(color))
@@ -55,6 +56,11 @@ class MainDialog(QDialog):
             engine(num2word(number))
         else:
             engine(number)
+
+    def SelectLabel(self):
+        sender = self.sender()
+        index = int(sender.text())
+        self.ChangeLabel(index-1)
 
     def ChangeLabel(self, num):
         if self.CurrentLabel != num:
