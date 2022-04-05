@@ -6,3 +6,6 @@ A simple application to teach children counting number from 1~100.
 Dependencies:
 * pyqt5
 * pyttsx3
+
+Run:
+* `python main.py`
