@@ -1,12 +1,11 @@
+import random
 import sys
 import CountWidget
-from PyQt5.QtWidgets import QApplication, QDialog, QLabel
-from PyQt5.QtCore import QTimer
 import PyQt5.QtCore as QtCore
-import time
 import pyttsx3
-import requests
-import random
+from PyQt5.QtCore import QTimer
+from PyQt5.QtWidgets import QApplication, QDialog, QLabel
+from number_to_word import num2word
 
 
 def engine(voice):
@@ -27,10 +26,10 @@ class MainDialog(QDialog):
 
         for i in range(10):
             for j in range(10):
-                label = QLabel(str(i*10+j+1))
-                label.setFixedSize(80,80)
+                label = QLabel(str(i * 10 + j + 1))
+                label.setFixedSize(80, 80)
                 label.setAlignment(QtCore.Qt.AlignCenter)
-                self._set_label_color(label,self.DefaultColor)
+                self._set_label_color(label, self.DefaultColor)
                 self.Labels.append(label)
                 self.ui.NumberLayout.addWidget(label, i, j)
         self.ui.RandomPickBtn.clicked.connect(self.RandomPick)
@@ -42,13 +41,19 @@ class MainDialog(QDialog):
         self.ui.RandomPickBtn.clicked.connect(lambda: timer.stop())
         self.ui.ClearBtn.clicked.connect(lambda: timer.stop())
 
-
-    def _get_color_style(self,name):
+    def _get_color_style(self, name):
         return "QLabel{{ font-size:25px;font-weight:bold;font-family:Roman times;background-color:{} }}".format(name)
 
     def _set_label_color(self, label, color):
         label.setStyleSheet(self._get_color_style(color))
 
+    def _say_number(self, number):
+        if self.ui.LanguageCombox.currentIndex() == 0:
+            engine(number)
+        elif self.ui.LanguageCombox.currentIndex() == 1:
+            engine(num2word(number))
+        else:
+            engine(number)
 
     def ChangeLabel(self, num):
         if self.CurrentLabel != num:
@@ -56,10 +61,10 @@ class MainDialog(QDialog):
             self.CurrentLabel = num
             self._set_label_color(self.Labels[self.CurrentLabel], self.HighLightColor)
             self.repaint()
-        engine(self.CurrentLabel+1)
+        self._say_number(self.CurrentLabel + 1)
 
     def Scan(self):
-        if self.CurrentLabel >=-1 and self.CurrentLabel < 100:
+        if self.CurrentLabel >= -1 and self.CurrentLabel < 100:
             self.ChangeLabel(self.CurrentLabel + 1)
         else:
             self.CurrentLabel = 0
@@ -68,9 +73,9 @@ class MainDialog(QDialog):
         num = random.randint(0, 100)
         self.ChangeLabel(num)
 
-
     def Clear(self):
         print("Clear")
+
 
 if __name__ == '__main__':
     myapp = QApplication(sys.argv)
