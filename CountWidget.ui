@@ -20,6 +20,20 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
+      <widget class="QComboBox" name="LanguageCombox">
+       <item>
+        <property name="text">
+         <string>中文</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>英文</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="ScanBtn">
        <property name="text">
         <string>浏览</string>

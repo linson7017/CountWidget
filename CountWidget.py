@@ -22,6 +22,11 @@ class Ui_Dialog(object):
         self.horizontalLayout.addLayout(self.NumberLayout)
         self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
+        self.LanguageCombox = QtWidgets.QComboBox(Dialog)
+        self.LanguageCombox.setObjectName("LanguageCombox")
+        self.LanguageCombox.addItem("")
+        self.LanguageCombox.addItem("")
+        self.verticalLayout.addWidget(self.LanguageCombox)
         self.ScanBtn = QtWidgets.QPushButton(Dialog)
         self.ScanBtn.setObjectName("ScanBtn")
         self.verticalLayout.addWidget(self.ScanBtn)
@@ -32,15 +37,19 @@ class Ui_Dialog(object):
         self.ClearBtn.setObjectName("ClearBtn")
         self.verticalLayout.addWidget(self.ClearBtn)
         self.horizontalLayout.addLayout(self.verticalLayout)
-        self.horizontalLayout.setStretch(0, 5)
         self.horizontalLayout.setStretch(1, 1)
 
         self.retranslateUi(Dialog)
+        self.RandomPickBtn.clicked.connect(Dialog.close)
+        self.ClearBtn.clicked.connect(Dialog.close)
+        self.ScanBtn.clicked.connect(Dialog.close)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Form"))
+        self.LanguageCombox.setItemText(0, _translate("Dialog", "中文"))
+        self.LanguageCombox.setItemText(1, _translate("Dialog", "英文"))
         self.ScanBtn.setText(_translate("Dialog", "浏览"))
         self.RandomPickBtn.setText(_translate("Dialog", "挑选"))
         self.ClearBtn.setText(_translate("Dialog", "清除"))
